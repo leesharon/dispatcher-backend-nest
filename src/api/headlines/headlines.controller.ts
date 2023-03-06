@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { CreateHeadlineDto } from './dtos/create-headline.dto'
 
 @Controller('/api/headlines')
 export class HeadlinesController {
@@ -14,7 +15,7 @@ export class HeadlinesController {
     }
 
     @Post()
-    createHeadline(@Body() body: any): string {
+    createHeadline(@Body() body: CreateHeadlineDto): string {
         console.log('HeadlinesController ~ createHeadline ~ body:', body)
         return 'createHeadline'
     }
