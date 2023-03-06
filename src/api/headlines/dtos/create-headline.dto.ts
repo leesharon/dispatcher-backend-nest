@@ -1,7 +1,8 @@
 /* eslint-disable indent */
-import { IsObject, IsOptional, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsObject, IsOptional, IsString, ValidateNested } from 'class-validator'
 
-export class CreateHeadlineDto {
+class HeadlineDto {
     @IsObject()
     @IsOptional()
     source?: {
@@ -10,6 +11,7 @@ export class CreateHeadlineDto {
     }
 
     @IsString()
+    @IsOptional()
     author?: string
 
     @IsString()
@@ -35,4 +37,11 @@ export class CreateHeadlineDto {
     @IsString()
     @IsOptional()
     content?: string
+}
+
+export class CreateHeadlineDto {
+    @IsObject()
+    @ValidateNested()
+    @Type(() => HeadlineDto)
+    headline: HeadlineDto
 }
