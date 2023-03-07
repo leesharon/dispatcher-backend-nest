@@ -1,5 +1,5 @@
 import { UpdateHeadlineDto } from './dtos/update-headline.dto'
-import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException, Query } from '@nestjs/common'
 import { CreateHeadlineDto } from './dtos/create-headline.dto'
 import { HeadlinesService } from './headlines.service'
 
@@ -16,17 +16,30 @@ export class HeadlinesController {
         return headlines
     }
 
+    @Get('/pagination')
+    async getAllWithPagination(
+        @Query('page') page: string,
+        @Query('itemsPerPage') itemsPerPage: string
+    ) {
+        const result = await this.headlinesService.getAllWithPagination(page, itemsPerPage)
+        if (!result)
+            throw new NotFoundException('no headlines found')
+        return result
+    }
+
     @Get('/:id')
     async getById(@Param('id') id: string) {
         const headline = await this.headlinesService.getById(id)
-        if (!headline) throw new NotFoundException('headline not found')
+        if (!headline)
+            throw new NotFoundException('headline not found')
         return headline
     }
 
     @Post()
     async create(@Body() body: CreateHeadlineDto) {
         const headline = await this.headlinesService.create(body.headline)
-        if (!headline) throw new NotFoundException('headline could not be created')
+        if (!headline)
+            throw new NotFoundException('headline could not be created')
         return headline
     }
 
@@ -36,14 +49,16 @@ export class HeadlinesController {
         @Body() body: UpdateHeadlineDto
     ) {
         const updatedHeadline = await this.headlinesService.update(id, body.headline)
-        if (!updatedHeadline) throw new NotFoundException('headline could not be updated')
+        if (!updatedHeadline)
+            throw new NotFoundException('headline could not be updated')
         return updatedHeadline
     }
 
     @Delete('/:id')
     async delete(@Param('id') id: string) {
         const deleteHeadline = await this.headlinesService.delete(id)
-        if (!deleteHeadline) throw new NotFoundException('headline could not be deleted')
+        if (!deleteHeadline)
+            throw new NotFoundException('headline could not be deleted')
         return deleteHeadline
     }
 }

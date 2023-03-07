@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common'
+import { BadRequestException, Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import mongoose, { Model } from 'mongoose'
 import { IHeadline } from '../../models/headline.model'
@@ -18,7 +18,24 @@ export class HeadlinesRepository implements OnModuleInit {
     }
 
     async getAll() {
-        return this.headlineModel.find()
+        return this.headlineModel.find().lean()
+    }
+
+    async getAllWithPagination(page: number, itemsPerPage: number, skip: number) {
+        const headlines = await this.headlineModel.find().lean().skip(skip).limit(itemsPerPage)
+        if (!headlines) throw new InternalServerErrorException('Could not get headlines')
+
+        const totalItems = await this.headlineModel.countDocuments({})
+        const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+        const result = {
+            totalItems,
+            totalPages,
+            currentPage: page,
+            itemsPerPage,
+            items: headlines,
+        }
+        return result
     }
 
     async getById(id: string) {
