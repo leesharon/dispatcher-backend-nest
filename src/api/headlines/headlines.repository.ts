@@ -1,14 +1,19 @@
+import { Injectable } from '@nestjs/common'
+import { readFile } from 'fs/promises'
+import { IHeadline } from '../../models/headline.model'
 
+@Injectable()
 export class HeadlinesRepository {
     async getAll() {
-        return 'getHeadlines'
+        const headlines = await readFile('./news-us.json', 'utf-8')
+        return JSON.parse(headlines)
     }
 
-    async getById() {
+    async getById(id: string) {
         return 'getHeadlineById'
     }
 
-    async create() {
+    async create(headline: Partial<IHeadline>) {
         return 'createHeadline'
     }
 
@@ -16,7 +21,7 @@ export class HeadlinesRepository {
         return 'updateHeadline'
     }
 
-    async delete() {
+    async delete(id: string) {
         return 'deleteHeadline'
     }
 }
