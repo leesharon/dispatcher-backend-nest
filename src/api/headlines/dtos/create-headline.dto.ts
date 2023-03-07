@@ -1,42 +1,34 @@
 /* eslint-disable indent */
 import { Type } from 'class-transformer'
-import { IsObject, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { IsObject, IsString, ValidateNested } from 'class-validator'
 
 class HeadlineDto {
     @IsObject()
-    @IsOptional()
-    source?: {
+    source: {
         id: string | null
         name: string
     }
 
     @IsString()
-    @IsOptional()
-    author?: string
+    author: string
 
     @IsString()
-    @IsOptional()
-    title?: string
+    title: string
 
     @IsString()
-    @IsOptional()
-    description?: string
+    description: string
 
     @IsString()
-    @IsOptional()
-    url?: string
+    url: string
 
     @IsString()
-    @IsOptional()
-    urlToImage?: string
+    urlToImage: string
 
     @IsString()
-    @IsOptional()
-    publishedAt?: string
+    publishedAt: string
 
     @IsString()
-    @IsOptional()
-    content?: string
+    content: string
 }
 
 export class CreateHeadlineDto {

@@ -5,7 +5,7 @@ import { HeadlinesRepository } from './headlines.repository'
 @Injectable()
 export class HeadlinesService {
 
-    constructor(public headlinesRepo: HeadlinesRepository) { }
+    constructor(private readonly headlinesRepo: HeadlinesRepository) { }
 
     getAll() {
         return this.headlinesRepo.getAll()
@@ -19,8 +19,8 @@ export class HeadlinesService {
         return this.headlinesRepo.create(headline)
     }
 
-    update() {
-        return this.headlinesRepo.update()
+    update(id: string, headline: Partial<IHeadline>) {
+        return this.headlinesRepo.update(id, headline)
     }
 
     delete(id: string) {
