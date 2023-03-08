@@ -4,6 +4,7 @@ import { UsersService } from './users.service'
 import { AuthService } from './auth.service'
 import { SignupDto } from './dtos/signup.dto'
 import * as jwt from 'jsonwebtoken'
+import { CurrentUser } from './decorators/current-user.decorator'
 
 @Controller('/api/users')
 class UsersController {
@@ -61,12 +62,9 @@ class UsersController {
     }
 
     @Get('/auth/loggedinUser')
-    async getLoggedInUser(@Session() session: any) {
-        const { userId } = this.authService.verifyAccessToken(session.accessToken) as any
-        const loggedinUser = await this.userService.getById(userId)
-        if (!loggedinUser) throw new NotFoundException('user not found')
-
-        return loggedinUser
+    async getLoggedInUser(@CurrentUser() user: any) {
+        if (!user) throw new NotFoundException('user not found')
+        return user
     }
 }
 
