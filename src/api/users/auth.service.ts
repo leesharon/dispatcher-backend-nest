@@ -45,6 +45,10 @@ class AuthService {
             { expiresIn: '15m' }
         )
     }
+
+    verifyAccessToken(accessToken: string) {
+        return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
+    }
 }
 
 export { AuthService }

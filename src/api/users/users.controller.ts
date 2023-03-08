@@ -39,21 +39,31 @@ class UsersController {
     @Post('/auth/signup')
     async signup(@Body() body: SignupDto, @Session() session: any) {
         const { createdUser, accessToken } = await this.authService.signup(body.credentials.email, body.credentials.password)
-
         if (!createdUser) throw new NotFoundException('user could not be created')
-        accessToken && (session.accessToken = accessToken)
 
+        accessToken && (session.accessToken = accessToken)
         return createdUser
     }
 
     @Post('/auth/signin')
     async signin(@Body() body: SignupDto, @Session() session: any) {
         const { user, accessToken } = await this.authService.signin(body.credentials.email, body.credentials.password)
-
         if (!accessToken) throw new UnauthorizedException('user could not be signed in')
-        accessToken && (session.accessToken = accessToken)
 
+        accessToken && (session.accessToken = accessToken)
         return user
+    }
+
+    @Get('/auth/loggedinUser')
+    async getLoggedInUser(@Session() session: any) {
+        const accessToken = session.accessToken
+        if (!accessToken) throw new UnauthorizedException('no user signed in')
+
+        const { userId } = this.authService.verifyAccessToken(accessToken) as any
+        const loggedinUser = await this.userService.getById(userId)
+        if (!loggedinUser) throw new NotFoundException('user not found')
+
+        return loggedinUser
     }
 }
 
