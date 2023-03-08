@@ -54,6 +54,12 @@ class UsersController {
         return user
     }
 
+    @Post('/auth/signout')
+    signout(@Session() session: any) {
+        session.accessToken = null
+        return { message: 'signed out' }
+    }
+
     @Get('/auth/loggedinUser')
     async getLoggedInUser(@Session() session: any) {
         const { userId } = this.authService.verifyAccessToken(session.accessToken) as any
