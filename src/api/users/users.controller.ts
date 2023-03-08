@@ -1,10 +1,10 @@
 import { UpdateUserDto } from './dtos/update-user.dto'
-import { Body, Controller, Get, NotFoundException, Param, Post, Put, Session, UnauthorizedException } from '@nestjs/common'
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Session, UnauthorizedException, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { AuthService } from './auth.service'
 import { SignupDto } from './dtos/signup.dto'
-import * as jwt from 'jsonwebtoken'
 import { CurrentUser } from './decorators/current-user.decorator'
+import { AuthGuard } from 'src/guards/auth.guard'
 
 @Controller('/api/users')
 class UsersController {
@@ -15,6 +15,7 @@ class UsersController {
     ) { }
 
     @Get()
+    @UseGuards(AuthGuard)
     async getAllUsers() {
         const users = await this.userService.getAll()
         if (!users || users.length === 0)
@@ -23,6 +24,7 @@ class UsersController {
     }
 
     @Get('/:id')
+    @UseGuards(AuthGuard)
     async getUserById(@Param('id') id: string) {
         const user = await this.userService.getById(id)
         if (!user) throw new NotFoundException('user not found')
@@ -30,6 +32,7 @@ class UsersController {
     }
 
     @Put('/:id')
+    @UseGuards(AuthGuard)
     async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
         const updatedUser = await this.userService.update(id, body.user)
         if (!updatedUser) throw new NotFoundException('user not found')
