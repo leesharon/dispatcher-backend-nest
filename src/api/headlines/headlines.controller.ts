@@ -1,9 +1,11 @@
 import { UpdateHeadlineDto } from './dtos/update-headline.dto'
-import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException, Query, UseGuards } from '@nestjs/common'
 import { CreateHeadlineDto } from './dtos/create-headline.dto'
 import { HeadlinesService } from './headlines.service'
+import { AuthGuard } from 'src/guards/auth.guard'
 
 @Controller('/api/headlines')
+@UseGuards(AuthGuard)
 export class HeadlinesController {
 
     constructor(private readonly headlinesService: HeadlinesService) { }

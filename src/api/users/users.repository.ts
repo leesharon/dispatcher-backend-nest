@@ -26,8 +26,17 @@ class UsersRepository implements OnModuleInit {
         return this.userModel.findOne({ _id: new mongoose.Types.ObjectId(id) })
     }
 
-    create(user: Partial<IUser>) {
-        return this.userModel.create(user)
+    getByEmail(email: string) {
+        return this.userModel.findOne({ email })
+    }
+
+    async create(credentials: { email: string, password: string }) {
+        const user = await this.userModel.create(credentials)
+        return user.toObject({
+            transform: (doc, ret) => {
+                delete ret.password
+            }
+        })
     }
 
     update(id: string, user: Partial<IUser>) {

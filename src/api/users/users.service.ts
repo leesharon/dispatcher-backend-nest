@@ -15,8 +15,12 @@ class UsersService {
         return this.usersRepo.getById(id)
     }
 
-    create(user: Partial<IUser>) {
-        return this.usersRepo.create(user)
+    getByEmail(email: string) {
+        return this.usersRepo.getByEmail(email).select('+password')
+    }
+
+    create(credentials: { email: string, password: string }) {
+        return this.usersRepo.create(credentials)
     }
 
     update(id: string, user: Partial<IUser>) {
