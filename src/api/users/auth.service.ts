@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { UsersService } from './users.service'
 import * as bcrypt from 'bcrypt'
+import * as jwt from 'jsonwebtoken'
 
 @Injectable()
 class AuthService {
@@ -14,26 +15,36 @@ class AuthService {
         const saltRounds = 10
         const hash = await bcrypt.hash(password, saltRounds)
 
-        const user = await this.usersService.create({ email, password: hash })
-        return user
+        const createdUser = await this.usersService.create({ email, password: hash })
+        const accessToken = this.generateAccessToken(createdUser._id)
+
+        return { createdUser, accessToken }
     }
 
-    // async signin(email: string, password: string) {
-    //     const [user] = await this.usersService.find(email)
-    //     if (!user) {
-    //         throw new NotFoundException('user not found')
-    //     }
+    async signin(email: string, password: string) {
+        const existingUser = await this.usersService.getByEmail(email)
+        if (!existingUser) throw new NotFoundException('user not found')
 
-    //     const [salt, storedHash] = user.password.split('.')
+        const match = await bcrypt.compare(password, existingUser.password)
+        if (!match) throw new UnauthorizedException('incorrect email or password')
 
-    //     const hash = (await scrypt(password, salt, 32)) as Buffer
+        const userWithoutPassowrd = existingUser.toObject({
+            transform: (doc, ret) => {
+                delete ret.password
+            }
+        })
+        const accessToken = this.generateAccessToken(existingUser._id)
 
-    //     if (storedHash !== hash.toString('hex')) {
-    //         throw new BadRequestException('bad password')
-    //     }
+        return { user: userWithoutPassowrd, accessToken }
+    }
 
-    //     return user
-    // }
+    private generateAccessToken(userId: string) {
+        return jwt.sign(
+            { userId },
+            process.env.JWT_ACCESS_SECRET!,
+            { expiresIn: '15m' }
+        )
+    }
 }
 
 export { AuthService }

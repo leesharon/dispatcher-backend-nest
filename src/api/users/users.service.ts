@@ -16,7 +16,7 @@ class UsersService {
     }
 
     getByEmail(email: string) {
-        return this.usersRepo.getByEmail(email)
+        return this.usersRepo.getByEmail(email).select('+password')
     }
 
     create(credentials: { email: string, password: string }) {
