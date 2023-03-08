@@ -12,9 +12,9 @@ export class HeadlinesRepository implements OnModuleInit {
     ) { }
     onModuleInit() {
         if (this.headlineModel.db.readyState === 1)
-            console.log('Database connection is ready!')
+            console.log('Headlines Database connection is ready!')
         else
-            console.log('Database connection is not ready!')
+            console.log('Headlines Database connection is not ready!')
     }
 
     async getAll() {

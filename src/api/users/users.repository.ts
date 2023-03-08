@@ -17,33 +17,33 @@ class UsersRepository implements OnModuleInit {
             console.log('Users Database connection is not ready!')
     }
 
-    async getAll() {
+    getAll() {
         return this.userModel.find().lean()
     }
 
-    // async getById(id: string) {
-    //     if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid headline id')
-    //     return this.headlineModel.findOne({ _id: new mongoose.Types.ObjectId(id) })
-    // }
+    getById(id: string) {
+        if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid user id')
+        return this.userModel.findOne({ _id: new mongoose.Types.ObjectId(id) })
+    }
 
-    // async create(headline: Partial<IHeadline>) {
-    //     return this.headlineModel.create(headline)
-    // }
+    create(user: Partial<IUser>) {
+        return this.userModel.create(user)
+    }
 
-    // async update(id: string, headline: Partial<IHeadline>) {
-    //     if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid headline id')
+    update(id: string, user: Partial<IUser>) {
+        if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid user id')
 
-    //     return this.headlineModel.findOneAndUpdate(
-    //         { _id: new mongoose.Types.ObjectId(id) },
-    //         { ...headline },
-    //         { new: true, useFindAndModify: false }
-    //     )
-    // }
+        return this.userModel.findOneAndUpdate(
+            { _id: new mongoose.Types.ObjectId(id) },
+            { ...user },
+            { new: true, useFindAndModify: false }
+        )
+    }
 
-    // async delete(id: string) {
-    //     if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid headline id')
-    //     return this.headlineModel.findByIdAndDelete(id)
-    // }
+    delete(id: string) {
+        if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid user id')
+        return this.userModel.findByIdAndDelete(id)
+    }
 }
 
 export { UsersRepository }

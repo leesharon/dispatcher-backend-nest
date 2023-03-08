@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { IHeadline } from 'src/models/headline.model'
+import { Injectable } from '@nestjs/common'
+import { IUser } from 'src/models/user.model'
 import { UsersRepository } from './users.repository'
 
 @Injectable()
@@ -11,21 +11,21 @@ class UsersService {
         return this.usersRepo.getAll()
     }
 
-    // getById(id: string) {
-    //     return this.headlinesRepo.getById(id)
-    // }
+    getById(id: string) {
+        return this.usersRepo.getById(id)
+    }
 
-    // create(headline: Partial<IHeadline>) {
-    //     return this.headlinesRepo.create(headline)
-    // }
+    create(user: Partial<IUser>) {
+        return this.usersRepo.create(user)
+    }
 
-    // update(id: string, headline: Partial<IHeadline>) {
-    //     return this.headlinesRepo.update(id, headline)
-    // }
+    update(id: string, user: Partial<IUser>) {
+        return this.usersRepo.update(id, user)
+    }
 
-    // delete(id: string) {
-    //     return this.headlinesRepo.delete(id)
-    // }
+    delete(id: string) {
+        return this.usersRepo.delete(id)
+    }
 }
 
 export { UsersService }
