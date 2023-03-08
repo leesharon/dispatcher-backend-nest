@@ -56,10 +56,7 @@ class UsersController {
 
     @Get('/auth/loggedinUser')
     async getLoggedInUser(@Session() session: any) {
-        const accessToken = session.accessToken
-        if (!accessToken) throw new UnauthorizedException('no user signed in')
-
-        const { userId } = this.authService.verifyAccessToken(accessToken) as any
+        const { userId } = this.authService.verifyAccessToken(session.accessToken) as any
         const loggedinUser = await this.userService.getById(userId)
         if (!loggedinUser) throw new NotFoundException('user not found')
 

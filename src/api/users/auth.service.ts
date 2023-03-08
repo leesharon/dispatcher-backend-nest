@@ -47,7 +47,13 @@ class AuthService {
     }
 
     verifyAccessToken(accessToken: string) {
-        return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
+        return jwt.verify(
+            accessToken,
+            process.env.JWT_ACCESS_SECRET!,
+            (err: any, userId: string) => {
+                if (err) throw new UnauthorizedException('invalid access token')
+                return userId
+            })
     }
 }
 
