@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose, { HydratedDocument } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 
-export type HeadlineDocument = HydratedDocument<Headline>
+export type HeadlineDocument = Document & Headline
 
 @Schema({ collection: 'headline' })
 export class Headline {
@@ -10,7 +10,7 @@ export class Headline {
         type: mongoose.Schema.Types.ObjectId,
         default: new mongoose.Types.ObjectId
     })
-    _id: string
+    _id: mongoose.Schema.Types.ObjectId
 
     @Prop({
         type: {

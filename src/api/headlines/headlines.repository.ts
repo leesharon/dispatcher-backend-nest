@@ -40,7 +40,7 @@ export class HeadlinesRepository implements OnModuleInit {
 
     async getById(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid headline id')
-        return this.headlineModel.findOne({ _id: new mongoose.Types.ObjectId(id) })
+        return this.headlineModel.findById(new mongoose.Types.ObjectId(id))
     }
 
     async create(headline: Partial<IHeadline>) {

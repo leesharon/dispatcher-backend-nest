@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose, { HydratedDocument } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 
-export type UserDocument = HydratedDocument<User>
+export type UserDocument = Document<User>
 
 @Schema({ collection: 'user' })
 export class User {
