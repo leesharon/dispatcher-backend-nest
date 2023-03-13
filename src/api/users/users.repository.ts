@@ -44,7 +44,7 @@ class UsersRepository implements OnModuleInit {
 
         return this.userModel.findOneAndUpdate(
             { _id: new mongoose.Types.ObjectId(id) },
-            { ...user },
+            { ...user as any }, //! Fix this
             { new: true, useFindAndModify: false }
         )
     }
