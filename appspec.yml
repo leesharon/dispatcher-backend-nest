@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/dispatcher/Server/current/
+    destination: /home/ubuntu/dispatcher/code-deploy/
     overwrite: true
 permissions:
-  - object: /home/ubuntu/dispatcher/Server/current/
+  - object: /home/ubuntu/dispatcher/code-deploy/
     pattern: "**"
     owner: ubuntu
     group: ubuntu
