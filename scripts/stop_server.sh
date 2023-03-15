@@ -1,1 +1,1 @@
-pm2 stop dispatcher-backend-nest
+pm2 stop main
