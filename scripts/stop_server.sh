@@ -1,2 +1,2 @@
 #!/bin/bash
-pm2 stop main
+pm2 stop main || true
