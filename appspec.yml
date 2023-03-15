@@ -10,10 +10,11 @@ permissions:
     owner: ubuntu
     group: ubuntu
 hooks:
-  AfterInstall:
+  BeforeInstall:
     - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
+  AfterInstall:
     - location: scripts/build_app.sh
       timeout: 300
       runas: root
