@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/my-project/
+    overwrite: true
+permissions:
+  - object: /home/ubuntu/my-project/
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: ubuntu
+  AfterInstall:
+    - location: scripts/build_app.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start_app.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: ubuntu
