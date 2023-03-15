@@ -1,2 +1,2 @@
-cd /home/ubuntu/my-project/
+cd ~/dispatcher/Server/current/
 npm run build

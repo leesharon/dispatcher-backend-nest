@@ -1,2 +1,2 @@
-cd /home/ubuntu/myapp
+cd ~/dispatcher/Server/current/
 pm2 start dist/api/main.js

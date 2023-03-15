@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/my-project/
+    destination: ~/dispatcher/Server/current/
     overwrite: true
 permissions:
-  - object: /home/ubuntu/my-project/
+  - object: ~/dispatcher/Server/current/
     pattern: "**"
     owner: ubuntu
     group: ubuntu
