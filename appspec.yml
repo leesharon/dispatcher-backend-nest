@@ -11,7 +11,7 @@ permissions:
     group: ubuntu
 hooks:
   AfterInstall:
-     - location: scripts/install_dependencies.sh
+    - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
     - location: scripts/build_app.sh
