@@ -1,2 +1,2 @@
-cd ~/dispatcher/Server/current/
+cd /home/ubuntu/dispatcher/Server/current/
 npm i

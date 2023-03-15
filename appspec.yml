@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: ~/dispatcher/Server/current/
+    destination: /home/ubuntu/dispatcher/Server/current/
     overwrite: true
 permissions:
-  - object: ~/dispatcher/Server/current/
+  - object: /home/ubuntu/dispatcher/Server/current/
     pattern: "**"
     owner: ubuntu
     group: ubuntu
@@ -13,16 +13,16 @@ hooks:
   BeforeInstall:
     - location: scripts/install_dependencies.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
   AfterInstall:
     - location: scripts/build_app.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
   ApplicationStart:
     - location: scripts/start_app.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
   ApplicationStop:
     - location: scripts/stop_server.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
